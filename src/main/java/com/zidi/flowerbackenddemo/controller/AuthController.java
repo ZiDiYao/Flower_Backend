@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin // 允许前端跨域访问
+@CrossOrigin
 public class AuthController {
 
     @Autowired
