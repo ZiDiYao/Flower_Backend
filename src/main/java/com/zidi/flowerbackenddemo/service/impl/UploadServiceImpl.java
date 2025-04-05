@@ -12,30 +12,38 @@ import java.util.UUID;
 @Service
 public class UploadServiceImpl implements UploadService {
 
-    @Value("${upload.path}")
+    @Value("${upload.dir}")
     private String uploadDir;
 
     @Override
-    public String saveFile(MultipartFile file) {
-        String contentType = file.getContentType();
-        if (contentType == null ||
-                !(contentType.equals("image/jpeg") || contentType.equals("image/png"))) {
-            return null;
+    public String saveFile(MultipartFile file) throws IOException {
+        if (file.isEmpty()) {
+            throw new IOException("File is empty.");
         }
 
-        String extension = contentType.equals("image/jpeg") ? ".jpg" : ".png";
-        String fileName = UUID.randomUUID() + extension;
+        // 使用项目根路径拼接 uploads 文件夹
+        String projectPath = System.getProperty("user.dir");  // FlowerBackEndDemo 根目录
+        File uploadPath = new File(projectPath, uploadDir);
 
-        try {
-            File dir = new File(uploadDir);
-            if (!dir.exists()) dir.mkdirs();
-
-            File destination = new File(dir, fileName);
-            file.transferTo(destination);
-            return fileName;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+        // 自动创建 uploads 目录（如不存在）
+        if (!uploadPath.exists()) {
+            boolean created = uploadPath.mkdirs();
+            if (!created) {
+                throw new IOException("Failed to create upload directory.");
+            }
         }
+
+        // 生成唯一文件名
+        String originalFilename = file.getOriginalFilename();
+        String ext = originalFilename != null && originalFilename.contains(".")
+                ? originalFilename.substring(originalFilename.lastIndexOf("."))
+                : "";
+        String filename = UUID.randomUUID().toString() + ext;
+
+        File dest = new File(uploadPath, filename);
+        file.transferTo(dest);
+
+        System.out.println("✅ Image saved to: " + dest.getAbsolutePath());
+        return filename;
     }
 }
