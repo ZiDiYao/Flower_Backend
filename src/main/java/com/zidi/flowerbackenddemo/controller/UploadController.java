@@ -28,20 +28,19 @@ public class UploadController {
         System.out.println("Content type: " + file.getContentType());
         System.out.println("File size: " + file.getSize() + " bytes");
 
-        // Check if file is empty
         if (file.isEmpty()) {
             System.out.println("Upload failed: file is empty");
             return ResponseEntity.badRequest().body("Upload failed: file is empty");
         }
 
-        // Attempt to save the file using service
         String fileName = fileUploadService.saveFile(file);
         if (fileName != null) {
             System.out.println("Upload succeeded: saved as " + fileName);
-            return ResponseEntity.ok("File uploaded successfully: " + fileName);
+            return ResponseEntity.ok(fileName);
         } else {
             System.out.println("Upload failed: unsupported file type or saving error");
             return ResponseEntity.badRequest().body("Upload failed: invalid file type or save error");
         }
     }
+
 }
