@@ -20,12 +20,9 @@ public class UploadServiceImpl implements UploadService {
         if (file.isEmpty()) {
             throw new IOException("File is empty.");
         }
-
-        // 使用项目根路径拼接 uploads 文件夹
-        String projectPath = System.getProperty("user.dir");  // FlowerBackEndDemo 根目录
+        String projectPath = System.getProperty("user.dir");
         File uploadPath = new File(projectPath, uploadDir);
 
-        // 自动创建 uploads 目录（如不存在）
         if (!uploadPath.exists()) {
             boolean created = uploadPath.mkdirs();
             if (!created) {
@@ -33,7 +30,6 @@ public class UploadServiceImpl implements UploadService {
             }
         }
 
-        // 生成唯一文件名
         String originalFilename = file.getOriginalFilename();
         String ext = originalFilename != null && originalFilename.contains(".")
                 ? originalFilename.substring(originalFilename.lastIndexOf("."))
@@ -43,7 +39,7 @@ public class UploadServiceImpl implements UploadService {
         File dest = new File(uploadPath, filename);
         file.transferTo(dest);
 
-        System.out.println("✅ Image saved to: " + dest.getAbsolutePath());
+        System.out.println("Image saved to: " + dest.getAbsolutePath());
         return filename;
     }
 }
