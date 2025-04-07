@@ -1,10 +1,13 @@
 package com.zidi.flowerbackenddemo.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
+@Getter
 @Entity
 public class FlowerDescription {
 
+    // Getters & Setters
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,52 +18,35 @@ public class FlowerDescription {
     private String smell;
     private String location;
 
-    // Getters & Setters
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user; // Each description of flower now has each corresponding user account
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getImageName() {
-        return imageName;
     }
 
     public void setImageName(String imageName) {
         this.imageName = imageName;
     }
 
-    public String getColor() {
-        return color;
-    }
-
     public void setColor(String color) {
         this.color = color;
-    }
-
-    public String getPetals() {
-        return petals;
     }
 
     public void setPetals(String petals) {
         this.petals = petals;
     }
 
-    public String getSmell() {
-        return smell;
-    }
-
     public void setSmell(String smell) {
         this.smell = smell;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

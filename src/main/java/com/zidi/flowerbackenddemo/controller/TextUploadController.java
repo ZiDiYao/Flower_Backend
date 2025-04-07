@@ -18,6 +18,7 @@ public class TextUploadController {
     public ResponseEntity<String> saveFlowerDescription(@RequestBody FlowerDescriptionRequest request) {
         try {
             System.out.println("Receiving text description:");
+            System.out.println("username: " + request.getEmail());
             System.out.println("imageName: " + request.getImageName());
             System.out.println("description: " + request.getDescription());
 
@@ -30,5 +31,4 @@ public class TextUploadController {
                     .body("Failed to save flower description.");
         }
     }
-
 }
