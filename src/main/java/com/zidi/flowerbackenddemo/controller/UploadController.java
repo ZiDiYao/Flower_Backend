@@ -12,6 +12,7 @@ import java.io.IOException;
 public class UploadController {
 
     private final UploadService fileUploadService;
+    private final MLController mlController = new MLController();
 
     public UploadController(UploadService fileUploadService) {
         this.fileUploadService = fileUploadService;
@@ -32,7 +33,7 @@ public class UploadController {
             System.out.println("Upload failed: file is empty");
             return ResponseEntity.badRequest().body("Upload failed: file is empty");
         }
-
+        mlController.callModel(file);
         String fileName = fileUploadService.saveFile(file);
         if (fileName != null) {
             System.out.println("Upload succeeded: saved as " + fileName);
