@@ -7,4 +7,6 @@ import java.io.IOException;
 
 public interface UploadService {
     public String saveFile(MultipartFile file) throws IOException;
+
+    String getUploadDir();
 }
