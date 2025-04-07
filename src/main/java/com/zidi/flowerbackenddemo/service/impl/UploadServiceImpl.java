@@ -42,4 +42,10 @@ public class UploadServiceImpl implements UploadService {
         System.out.println("Image saved to: " + dest.getAbsolutePath());
         return filename;
     }
+    @Override
+    public String getUploadDir() {
+        String projectPath = System.getProperty("user.dir");
+        return new File(projectPath, uploadDir).getAbsolutePath();
+    }
+
 }
