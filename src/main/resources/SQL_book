@@ -1,0 +1,43 @@
+create table result(
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name varchar(255) not null,
+    confidence DOUBLE not null
+);
+
+create Table post(
+    post_id BIGINT unsigned auto_increment primary key,
+    flower_description_id bigint,
+    result_id bigint unsigned,
+    post_date date,
+
+    foreign key (flower_description_id) references flower_description(id),
+    foreign key (result_id) references  result(id)
+);
+
+create table user_post (
+    user_id bigint ,
+    post_id bigint unsigned,
+
+    foreign key (user_id) references  users(id),
+    foreign key (post_id) references post(post_id)
+);
+
+-- Create users table
+CREATE TABLE users (
+                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                       email VARCHAR(255) UNIQUE,
+                       username VARCHAR(255) UNIQUE,
+                       password VARCHAR(255) NOT NULL
+);
+
+-- Create flower_description table
+CREATE TABLE flower_description (
+                                    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                    image_name VARCHAR(255),
+                                    color VARCHAR(255),
+                                    petals VARCHAR(255),
+                                    smell VARCHAR(255),
+                                    location VARCHAR(255),
+                                    user_id BIGINT UNSIGNED,
+                                    FOREIGN KEY (user_id) REFERENCES users(id)
+);
