@@ -36,4 +36,11 @@ public class AuthServiceImpl implements AuthService {
     public String logout(String email) {
         return "User " + email + " logged out.";
     }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+
 }
