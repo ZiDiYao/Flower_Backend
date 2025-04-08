@@ -23,12 +23,12 @@ public class AuthServiceImpl implements AuthService {
         if (userOpt.isPresent()) {
             User user = userOpt.get();
             if (user.getPassword().equals(request.getPassword())) {
-                return new LoginResponse("success", "Login successful");
+                return new LoginResponse("success", "Login successful",user.getId());
             } else {
-                return new LoginResponse("error", "Wrong password");
+                return new LoginResponse("error", "Wrong password",user.getId());
             }
         } else {
-            return new LoginResponse("error", "User not found");
+            return new LoginResponse("error", "User not found", null);
         }
     }
 

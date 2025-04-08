@@ -1,11 +1,9 @@
 package com.zidi.flowerbackenddemo.controller;
 
-import com.zidi.flowerbackenddemo.dto.FlowerResultByPhoto;
 import com.zidi.flowerbackenddemo.service.UploadService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import com.zidi.flowerbackenddemo.Ml.MLClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +19,7 @@ public class UploadController {
     }
 
     /**
-     * Handles POST request to upload an image file and analyze it via ML
+     * Handles POST request to upload an image file
      * Endpoint: POST /api/upload/image
      */
     @PostMapping("/image")
@@ -44,11 +42,6 @@ public class UploadController {
 
         System.out.println("Upload succeeded: saved as " + fileName);
 
-        String imagePath = fileUploadService.getUploadDir() + File.separator + fileName;
-        FlowerResultByPhoto flowerResult = MLClient.identifyFlower(imagePath);
-
-        System.out.println("ML result: " + flowerResult.getName());
-
-        return ResponseEntity.ok("Identified flower: " + flowerResult.getName());
+        return ResponseEntity.ok(fileName);
     }
 }

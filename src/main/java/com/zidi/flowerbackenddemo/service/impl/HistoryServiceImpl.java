@@ -3,6 +3,7 @@ package com.zidi.flowerbackenddemo.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zidi.flowerbackenddemo.dto.FlowerDisplayResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,22 +20,30 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Autowired
     private FlowerDescriptionRepository flowerDescriptionRepository;
-    
-    @Autowired
-    private IdentificationResultRepository identificationResultRepository;
-    
-    @Autowired
-    private UserRepository userRepository;
 
     @Override
-    public List<FlowerDescription> getHistory(String userId) {
-        try {
-            Long userIdLong = Long.parseLong(userId);
-            return flowerDescriptionRepository.findByUser_Id(userIdLong);
-        } catch (NumberFormatException e) {
-            // If userId is not a valid number, return an empty list
-            return new ArrayList<>();
+    public List<FlowerDisplayResult> getDisplayHistory(Long userId) {
+        List<FlowerDescription> flowers = flowerDescriptionRepository.findByUser_Id(userId);
+        List<FlowerDisplayResult> results = new ArrayList<>();
+
+        for (FlowerDescription flower : flowers) {
+            IdentificationResult result = flower.getIdentificationResult();
+
+            String flowerName = result != null ? result.getFlowerName() : "Unknown";
+            Integer confidence = result != null ? result.getConfidence() : null;
+
+            results.add(new FlowerDisplayResult(
+                    flower.getImageName(),
+                    flowerName,
+                    confidence,
+                    flower.getColor(),
+                    flower.getPetals(),
+                    flower.getSmell(),
+                    flower.getLocation()
+            ));
         }
+
+        return results;
     }
-    
+
 }
