@@ -1,17 +1,14 @@
 package com.zidi.flowerbackenddemo.entity;
 
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 
 @Entity
-@Data
+@Table(name = "identification_result", schema = "flower_demo")
 public class IdentificationResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String flowerName;
-    private Integer confidence;
+    public Long id;
+    public String flowerName;
+    public Integer confidence;
 }
